@@ -178,7 +178,7 @@ ADD . /code/
 RUN mkdir /jupyter
 RUN cd /jupyter
 WORKDIR /jupyter
-RUN git clone https://github.com/TensorMSA/tensormsa_jupyter.git /jupyter
+RUN git clone https://github.com/tylee33/DeepLearning_Tutorial.git /jupyter
 WORKDIR /code
 
 CMD ["/run_jupyter.sh"]
