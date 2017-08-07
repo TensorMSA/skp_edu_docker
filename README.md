@@ -12,7 +12,7 @@ chmod +x /usr/local/bin/docker-compose
 
 
 ## Pull & Run Docker Image
-docker run -it --env-file=".env" -p 8888:8888 -p 5901:5901 hoyai/tf_edu_docker_skp:v1.0
+docker run -itd --env-file=".env" -p 8888:8888 -p 5901:5901 hoyai/tf_edu_docker_skp:v1.0
 
 ## Docker-compose up
 docker-compose up
