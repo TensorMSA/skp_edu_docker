@@ -11,5 +11,8 @@ curl -L https://github.com/docker/compose/releases/download/1.15.0/docker-compos
 chmod +x /usr/local/bin/docker-compose
 
 
-## Pull Docker Image
+## Pull & Run Docker Image
 docker run -it --env-file=".env" -p 8888:8888 -p 5901:5901 hoyai/tf_edu_docker_skp:v1.0
+
+## Docker-compose up
+docker-compose up
