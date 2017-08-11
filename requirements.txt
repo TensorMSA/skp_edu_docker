@@ -17,3 +17,6 @@ django-cors-headers==2.0.2
 hanja==0.11.0
 ngram==3.3.2
 gunicorn==19.6.0
+seaborn
+plotly
+pydot

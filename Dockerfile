@@ -3,9 +3,10 @@ FROM ubuntu:16.04
 MAINTAINER Craig Citro <craigcitro@google.com>
 # set locale ko_KR
 RUN locale-gen ko_KR.UTF-8
-ENV LANG ko_KR.UTF-8
-ENV LANGUAGE ko_KR.UTF-8
-ENV LC_ALL ko_KR.UTF-8
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 # Pick up some TF dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -130,10 +131,6 @@ EXPOSE 6006
 EXPOSE 8888
 EXPOSE 8000
 RUN mkdir /code
-ADD requirements.txt /code/
-WORKDIR /code
-RUN pip install -r requirements.txt
-WORKDIR /code
 
 
 #############################################################################
@@ -174,12 +171,70 @@ COPY run_vnc.sh /
 ##############################################################################
 # git
 ##############################################################################
-ADD . /code/
 RUN mkdir /jupyter
 RUN cd /jupyter
 WORKDIR /jupyter
 RUN git clone https://github.com/TensorMSA/tensormsa_jupyter.git /jupyter
 WORKDIR /code
+
+#############################################################################
+# nlp setting                                                               #
+#############################################################################
+RUN apt-get update && apt-get install -y --no-install-recommends sudo openjdk-8-jdk libmecab-dev && rm -rf /var/lib/apt/lists/*
+
+
+RUN conda install -y -c  conda-forge jpype1
+RUN conda install -y  mkl
+
+RUN mkdir /home/dev/mecab
+RUN cd /home/dev/mecab
+WORKDIR /home/dev/mecab
+
+RUN curl -O https://raw.githubusercontent.com/konlpy/konlpy/master/scripts/mecab.sh
+RUN chmod +x mecab.sh
+RUN ./mecab.sh
+
+RUN conda install -y libgcc
+
+RUN wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-2.0.1-20150920.tar.gz \
+&& tar xzvf mecab-ko-dic-2.0.1-20150920.tar.gz \
+&& cd mecab-ko-dic-2.0.1-20150920 \
+&& sudo ldconfig \
+&& ldconfig -p | grep /usr/local/lib \
+&& ./clean \
+&& ./configure \
+&& make \
+&& make install
+
+RUN rm -f  mecab-ko-dic-2.0.1-20150920.tar.gz
+RUN rm -f /tmp/mecab-*.tar.gz
+RUN rm -Rf /tmp/mecab*-20150920
+###########################################################
+#                         XGBOOST			  #
+###########################################################
+RUN apt-get update && apt-get install -y --no-install-recommends cmake && rm -rf /var/lib/apt/lists/*
+
+RUN cd /home/dev
+WORKDIR /home/dev
+RUN git clone --recursive https://github.com/dmlc/xgboost
+RUN cd xgboost; make -j4
+
+RUN cd /home/dev
+WORKDIR /home/dev
+RUN git clone --recursive https://github.com/Microsoft/LightGBM ; cd LightGBM
+RUN mkdir build ; cd build
+WORKDIR /home/dev/LightGBM/build
+RUN cmake .. 
+RUN make -j4
+###########################################################
+#                         pip    			  #
+###########################################################
+ADD . /code/
+ADD requirements.txt /code/
+WORKDIR /code
+RUN pip install -r requirements.txt
+WORKDIR /code
+
 
 CMD ["/run_jupyter.sh"]
 
