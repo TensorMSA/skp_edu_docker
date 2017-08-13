@@ -210,14 +210,14 @@ RUN rm -f  mecab-ko-dic-2.0.1-20150920.tar.gz
 RUN rm -f /tmp/mecab-*.tar.gz
 RUN rm -Rf /tmp/mecab*-20150920
 ###########################################################
-#                         XGBOOST			  #
+#                         lightGBM       		  #
 ###########################################################
-RUN apt-get update && apt-get install -y --no-install-recommends cmake && rm -rf /var/lib/apt/lists/*
 
-RUN cd /home/dev
-WORKDIR /home/dev
-RUN git clone --recursive https://github.com/dmlc/xgboost
-RUN cd xgboost; make -j4
+
+
+
+RUN apt-get update && apt-get install -y --no-install-recommends cmake python-setuptools && rm -rf /var/lib/apt/lists/*
+
 
 RUN cd /home/dev
 WORKDIR /home/dev
@@ -233,6 +233,25 @@ ADD . /code/
 ADD requirements.txt /code/
 WORKDIR /code
 RUN pip install -r requirements.txt
+WORKDIR /code
+RUN apt-get update && apt-get install -y --no-install-recommends graphviz && rm -rf /var/lib/apt/lists/*
+###########################################################
+#                         XGBOOST			  #
+###########################################################
+RUN apt-get update && apt-get install -y --no-install-recommends cmake python-setuptools && rm -rf /var/lib/apt/lists/*
+
+RUN cd /home/dev
+WORKDIR /home/dev
+RUN git clone --recursive https://github.com/dmlc/xgboost; exit 0
+
+
+RUN cd xgboost; make -j4
+RUN cd /home/dev/xgboost/python-package
+WORKDIR /home/dev/xgboost/python-package
+
+RUN python setup.py install
+RUN echo "export PYTHONPATH=/home/dev/xgboost/python-package" >> ~/.bashrc 
+
 WORKDIR /code
 
 
