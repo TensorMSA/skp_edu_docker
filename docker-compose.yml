@@ -6,7 +6,7 @@ services:
     #volumes:
     #  - pg_data:/var/lib/postgresql/data/
   web:
-    image: hoyai/tf_edu_docker_skp:v1.1
+    image: hoyai/tf_edu_docker_skp:v1.2
     env_file: .env
     volumes:
       - ./code:/code
@@ -42,7 +42,7 @@ services:
       - "5672:5672"  # we forward this port because it's useful for debugging
       - "15672:15672"  # here, we can access rabbitmq management plugin
   celery:
-    image: hoyai/tf_edu_docker_skp:v1.1
+    image: hoyai/tf_edu_docker_skp:v1.2
     volumes:
       - ./code:/code
     command: bash -c "/run_celery.sh;"
