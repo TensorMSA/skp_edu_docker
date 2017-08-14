@@ -3,6 +3,7 @@
 
 ## Get Docker
 https://docs.docker.com/engine/installation/
+curl -s https://get.docker.com/ | sudo sh
 
 ## Get Docker-compose
 https://github.com/docker/compose/releases
