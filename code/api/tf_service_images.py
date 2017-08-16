@@ -6,7 +6,7 @@ from .tf_service_logic import TfExamBackendService as tebs
 
 import sys
 sys.path.insert(0, '/jupyter/chap06_image/')
-import restTest
+from restTest import restTest as rt
 
 class TfImageService(APIView):
 
@@ -18,7 +18,8 @@ class TfImageService(APIView):
 
     def get(self, request):
         print("get")
-        return_data = {"status":"200","result":"put"}
+        result = rt.print_test(self,1,2)
+        return_data = {"status":"200","result":result}
         return Response(json.dumps(return_data))
 
 
