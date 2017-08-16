@@ -18,6 +18,8 @@ from django.contrib import admin
 from api import TfExamService as tf_service
 from django.views.decorators.csrf import csrf_exempt
 from api import TfServiceCelry as tf_service_celery
+from api import TfImageService as tf_image_service
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,4 +27,6 @@ urlpatterns = [
         csrf_exempt(tf_service.as_view())),
     url(r'^api/test/type/celeryexam1/operator/fib/values/(?P<values>.*)/',
         csrf_exempt(tf_service_celery.as_view())),
+    url(r'^api/test/type/image/operator/predict/',
+        csrf_exempt(tf_image_service.as_view())),
 ]
