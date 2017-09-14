@@ -1,3 +1,3 @@
 #!/bin/bash
-
-celery -A tfrest worker -l info
+cd /home/dev/tensormsa
+celery -A hoyai worker -l info
