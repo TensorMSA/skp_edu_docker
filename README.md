@@ -5,9 +5,13 @@
 https://docs.docker.com/engine/installation/
 
 docker rm -f containerId
+
 docker rmi -f dockerImage
+
 apt-get -f install
+
 sudo apt-get remove docker*
+
 curl -s https://get.docker.com/ | sudo sh
 
 
@@ -21,7 +25,9 @@ chmod +x /usr/local/bin/docker-compose
 
 ## Docker-compose up
 cd skp_edu_docker/
+
 docker volume create --name=pg_data
+
 docker-compose up
 
 
