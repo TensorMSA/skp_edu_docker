@@ -45,4 +45,4 @@ vi run_celery.sh
 ##
 cd /home/dev/tensormsa
 
-celery -A tensormsa worker -l info
+celery -A hoyai worker -l info
