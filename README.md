@@ -36,8 +36,11 @@ docker-compose scale celery=3
 
 ##
 docker exec -it dockerId bash
+
 move root folder
+
 vi run_celery.sh
+
 
 ##
 cd /home/dev/tensormsa
