@@ -23,26 +23,34 @@ curl -L https://github.com/docker/compose/releases/download/1.15.0/docker-compos
 chmod +x /usr/local/bin/docker-compose
 
 
+## Resolution Change
+cd /home/ubuntu/skp_edu_docker/
+
+vi .env 
+
+VNC_RESOLUTION=1900x1028
+
+
 ## Docker-compose up
-cd skp_edu_docker/
+cd /home/ubuntu/skp_edu_docker/
 
 docker volume create --name=pg_data
 
 docker-compose up
 
 
-## 
+## Docker Celery Add
 docker-compose scale celery=3
 
-##
+
+## Docker Celery Setup Change
 docker exec -it dockerId bash
 
 move root folder
 
 vi run_celery.sh
 
-
-##
+## Docker Celery Setup Change Script
 cd /home/dev/tensormsa
 
 celery -A hoyai worker -l info
