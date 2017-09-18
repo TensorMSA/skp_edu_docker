@@ -31,5 +31,15 @@ docker volume create --name=pg_data
 docker-compose up
 
 
-## Pull & Run Docker Image
-docker run -itd --env-file=".env" -p 8888:8888 -p 5901:5901 hoyai/tf_edu_docker_skp:v1.2
+## 
+docker-compose scale celery=3
+
+##
+docker exec -it dockerId bash
+move root folder
+vi run_celery.sh
+
+##
+cd /home/dev/tensormsa
+
+celery -A tensormsa worker -l info
